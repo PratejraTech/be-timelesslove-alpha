@@ -11,8 +11,8 @@ Welcome to the Timeless Love backend! This guide will help you set up your devel
 
 ## Prerequisites
 
-- Python 3.11 or higher
-- pip (Python package manager)
+- Python 3.13 or higher
+- uv (Python package manager) - [Install uv](https://github.com/astral-sh/uv)
 - Supabase account and project
 - Git
 
@@ -28,6 +28,10 @@ cd timelesslove-alpha/backend
 ### 2. Create Virtual Environment
 
 ```bash
+# Using uv (recommended)
+uv venv
+
+# Or using standard Python
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
@@ -35,7 +39,11 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ### 3. Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+# Using uv (recommended)
+uv pip install -r requirements.txt
+
+# Or using uv sync (if using pyproject.toml)
+uv sync
 ```
 
 ## Configuration
@@ -179,7 +187,7 @@ backend/
 
 **Import Errors**
 - Ensure virtual environment is activated
-- Verify all dependencies are installed: `pip install -r requirements.txt`
+- Verify all dependencies are installed: `uv pip install -r requirements.txt` or `uv sync`
 
 **Database Connection Errors**
 - Check Supabase credentials in `.env`

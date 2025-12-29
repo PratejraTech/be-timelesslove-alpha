@@ -22,7 +22,7 @@ try:
 except ImportError as e:
     print(f"Error importing modules: {e}")
     print("Make sure you're in the backend directory and dependencies are installed")
-    print("Install: pip install supabase psycopg2-binary")
+    print("Install: uv pip install supabase psycopg2-binary")
     sys.exit(1)
 
 

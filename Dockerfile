@@ -13,9 +13,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies to user directory
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+RUN chmod +x /usr/local/bin/uv
+
+# Copy requirements and install Python dependencies to user directory using uv
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN uv pip install --system --no-cache --user -r requirements.txt
 
 # Stage 2: Runtime - Minimal production image
 FROM python:3.13-slim

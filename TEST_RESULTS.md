@@ -150,12 +150,18 @@ SUPABASE_DB_PASSWORD=your_database_password
 
 ```bash
 # Recommended: Create a virtual environment first
+# Using uv (recommended)
+uv venv
+source .venv/bin/activate  # On macOS/Linux
+# or: .venv\Scripts\activate on Windows
+
+# Or using standard Python
 python -m venv venv
 source venv/bin/activate  # On macOS/Linux
 # or: venv\Scripts\activate on Windows
 
 # Install all dependencies
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 ### Step 2: Configure Environment
@@ -266,7 +272,7 @@ Without running full tests (dependencies not installed), we validated:
 ## 🎯 Next Steps
 
 1. ✅ Code created and validated (DONE)
-2. ⏳ Install dependencies: `pip install -r requirements.txt`
+2. ⏳ Install dependencies: `uv pip install -r requirements.txt`
 3. ⏳ Update `.env` with database URL
 4. ⏳ Run tests: `pytest tests/test_supabase_auth.py tests/test_graph_db.py -v`
 5. ⏳ Add startup/shutdown events to `app/main.py`
@@ -277,10 +283,10 @@ Without running full tests (dependencies not installed), we validated:
 ## 📞 Troubleshooting
 
 ### "ModuleNotFoundError: No module named 'jose'"
-→ Install dependencies: `pip install -r requirements.txt`
+→ Install dependencies: `uv pip install -r requirements.txt`
 
 ### "ModuleNotFoundError: No module named 'psycopg_pool'"
-→ Install LangGraph dependencies: `pip install psycopg[pool]`
+→ Install LangGraph dependencies: `uv pip install psycopg[pool]`
 
 ### "Could not find an activated virtualenv"
 → Create and activate virtualenv:

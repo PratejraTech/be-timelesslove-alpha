@@ -237,7 +237,7 @@ def main():
     if all_passed:
         print("\n✅ All validation tests passed!")
         print("\nNext steps:")
-        print("  1. Install full dependencies: pip install -r requirements.txt")
+        print("  1. Install full dependencies: uv pip install -r requirements.txt")
         print("  2. Run full test suite: pytest tests/test_supabase_auth.py -v")
         print("  3. Update .env with SUPABASE_DB_URL")
         print("  4. Add startup/shutdown events to app/main.py")

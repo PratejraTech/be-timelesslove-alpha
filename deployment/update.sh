@@ -24,11 +24,12 @@ echo "⏳ Waiting for services to start..."
 sleep 10
 echo ""
 
-# Check health
-if curl -f http://localhost/health > /dev/null 2>&1; then
+# Check health (Cloudflare Tunnel setup - direct port 8000)
+if curl -f http://localhost:8000/health > /dev/null 2>&1; then
     echo "✅ Update complete! Backend is healthy."
 else
     echo "⚠️  Warning: Health check failed"
+    echo "   Checking backend logs..."
     docker-compose -f docker-compose.production.yml logs --tail=20 backend
 fi
 echo ""

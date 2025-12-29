@@ -14,7 +14,11 @@ Backend API for the Timeless Love family social platform.
 
 1. Install dependencies:
 ```bash
-pip install -r requirements.txt
+# Using uv (recommended)
+uv pip install -r requirements.txt
+
+# Or using uv sync (if using pyproject.toml)
+uv sync
 ```
 
 2. Copy environment variables:

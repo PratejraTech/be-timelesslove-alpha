@@ -11,21 +11,22 @@ echo "📦 Docker Containers:"
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 echo ""
 
-# Check backend health endpoint
+# Check backend health endpoint (Cloudflare Tunnel setup - direct port 8000)
 echo "🔍 Backend Health Check:"
-if curl -f http://localhost/health 2>/dev/null; then
+if curl -f http://localhost:8000/health 2>/dev/null; then
     echo "✅ Backend is responding"
 else
     echo "❌ Backend is not responding"
+    echo "   Note: If using Nginx reverse proxy, check http://localhost/health instead"
 fi
 echo ""
 
-# Check Nginx
-echo "🌐 Nginx Status:"
+# Check Nginx (if Nginx is configured)
+echo "🌐 Nginx Status (if configured):"
 if curl -f http://localhost 2>/dev/null > /dev/null; then
     echo "✅ Nginx is responding"
 else
-    echo "❌ Nginx is not responding"
+    echo "ℹ️  Nginx not detected (Cloudflare Tunnel setup doesn't require Nginx)"
 fi
 echo ""
 

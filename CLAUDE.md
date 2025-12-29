@@ -18,6 +18,8 @@ Always use `bun` as the package manager (per user's global instructions), but no
 
 ```bash
 # Activate virtual environment first
+# Using uv (recommended): source .venv/bin/activate
+# Or standard Python: source venv/bin/activate
 source venv/bin/activate
 
 # Start development server with auto-reload
@@ -33,7 +35,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 **Common Issues**:
 - If you get `ModuleNotFoundError: No module named 'app'`:
   1. Ensure you're in the `backend/` directory: `pwd` should show `.../backend`
-  2. Activate the virtual environment: `source venv/bin/activate`
+  2. Activate the virtual environment: `source venv/bin/activate` (or `source .venv/bin/activate` if using uv)
   3. Kill any stale uvicorn processes: `pkill -f uvicorn`
   4. Run uvicorn again from the backend directory
 

@@ -19,11 +19,20 @@ git clone <repository-url>
 cd timelesslove-alpha/backend
 
 # Create virtual environment
+# Using uv (recommended)
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Or using standard Python
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+# Using uv (recommended)
+uv pip install -r requirements.txt
+
+# Or using uv sync (if using pyproject.toml)
+uv sync
 
 # Copy environment variables
 cp .env.example .env

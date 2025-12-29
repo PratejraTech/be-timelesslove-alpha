@@ -9,13 +9,13 @@ This guide shows how to integrate the new Supabase JWT authentication and LangGr
 ## 1. Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 Or install individually:
 
 ```bash
-pip install langgraph langgraph-checkpoint-postgres psycopg[pool]
+uv pip install langgraph langgraph-checkpoint-postgres psycopg[pool]
 ```
 
 ---

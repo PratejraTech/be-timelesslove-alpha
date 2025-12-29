@@ -21,7 +21,7 @@ try:
     from supabase import Client
 except ImportError as e:
     print(f"Error importing modules: {e}")
-    print("Make sure dependencies are installed: pip install supabase requests")
+    print("Make sure dependencies are installed: uv pip install supabase requests")
     sys.exit(1)
 
 

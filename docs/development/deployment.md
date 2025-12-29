@@ -91,7 +91,7 @@ MEDIA_THUMBNAIL_SIZE=400
 
 2. **Build Command**
    ```bash
-   pip install -r requirements.txt
+   uv pip install -r requirements.txt
    ```
 
 3. **Start Command**
@@ -128,13 +128,17 @@ MEDIA_THUMBNAIL_SIZE=400
 #### Dockerfile
 
 ```dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+RUN chmod +x /usr/local/bin/uv
+
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN uv pip install --system --no-cache -r requirements.txt
 
 # Copy application
 COPY . .
@@ -207,9 +211,15 @@ services:
 
 4. **Setup Virtual Environment**
    ```bash
-   python3.11 -m venv venv
+   # Using uv (recommended)
+   uv venv
+   source .venv/bin/activate
+   uv pip install -r requirements.txt
+   
+   # Or using standard Python
+   python3.13 -m venv venv
    source venv/bin/activate
-   pip install -r requirements.txt
+   uv pip install -r requirements.txt
    ```
 
 5. **Configure Environment**
@@ -448,8 +458,8 @@ If issues occur:
 
 1. **Update Dependencies**
    ```bash
-   pip list --outdated
-   pip install --upgrade <package>
+   uv pip list --outdated
+   uv pip install --upgrade <package>
    ```
 
 2. **Database Maintenance**
