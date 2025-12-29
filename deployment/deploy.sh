@@ -1,29 +1,27 @@
 #!/bin/bash
-# AWS Lightsail Deployment Script
+# AWS Lightsail Deployment Script (Cloudflare Tunnel version)
 # This script deploys the Timeless Love backend to AWS Lightsail
 
 set -e
 
-echo "🚀 Deploying Timeless Love Backend to AWS Lightsail..."
+echo "🚀 Deploying Timeless Love Backend to AWS Lightsail (Cloudflare Tunnel)..."
 echo ""
 
 # Navigate to backend directory
 cd /opt/timeless-love/backend || {
     echo "❌ Error: /opt/timeless-love/backend directory not found"
-    echo "Please clone the repository first"
     exit 1
 }
 
 # Check for .env.production file
 if [ ! -f ".env.production" ]; then
     echo "❌ Error: .env.production file not found"
-    echo "Please create .env.production with your configuration"
     exit 1
 fi
 echo "✅ Environment file found"
 echo ""
 
-# Pull latest code (if using git)
+# Pull latest code
 echo "📥 Pulling latest code..."
 if git rev-parse --git-dir > /dev/null 2>&1; then
     git pull origin main
@@ -61,9 +59,9 @@ echo "📊 Container Status:"
 docker-compose -f docker-compose.production.yml ps
 echo ""
 
-# Check backend health
+# Check backend health (local)
 echo "🏥 Checking backend health..."
-if curl -f http://localhost/health > /dev/null 2>&1; then
+if curl -f http://localhost:8000/health > /dev/null 2>&1; then
     echo "✅ Backend is healthy"
 else
     echo "⚠️  Backend health check failed, checking logs..."
@@ -80,9 +78,10 @@ echo ""
 echo "✅ Deployment complete!"
 echo ""
 echo "📊 Service URLs:"
-echo "   - API: http://$(curl -s ifconfig.me)"
-echo "   - Health: http://$(curl -s ifconfig.me)/health"
-echo "   - Docs: http://$(curl -s ifconfig.me)/docs (if DEBUG=true)"
+echo "   - API: https://api.yourdomain.com"
+echo "   - Health: https://api.yourdomain.com/health"
+echo "   - API v1 Health: https://api.yourdomain.com/api/v1/health"
+echo "   - Docs: https://api.yourdomain.com/docs (if DEBUG=true)"
 echo ""
 echo "📝 View logs with: docker-compose -f docker-compose.production.yml logs -f"
 echo "🛑 Stop services with: docker-compose -f docker-compose.production.yml down"

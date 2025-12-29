@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.api.v1 import auth, invites, memories, storage, feed
+from app.api.v1 import health as health_router
 from app.middleware.logging import StructuredLoggingMiddleware
 
 # Load environment variables from .env file
@@ -44,6 +45,7 @@ app.include_router(invites.router, prefix=f"/api/{settings.api_version}/invites"
 app.include_router(memories.router, prefix=f"/api/{settings.api_version}/memories", tags=["memories"])
 app.include_router(storage.router, prefix=f"/api/{settings.api_version}/storage", tags=["storage"])
 app.include_router(feed.router, prefix=f"/api/{settings.api_version}", tags=[])
+app.include_router(health_router.router, prefix=f"/api/{settings.api_version}/health", tags=["health"])
 
 # Include adapter routers (frontend-facing adapters with transformation layer)
 app.include_router(auth_adapter, prefix=f"/adaptor/{settings.api_version}/auth", tags=["adaptor-auth"])
@@ -66,9 +68,9 @@ async def health():
 
 
 # INSERT_YOUR_CODE
-if __name__ == "__main__":
-    import os
-    os.system("gunicorn app.main:app --bind 127.0.0.1:8000 --reload --worker-class uvicorn.workers.UvicornWorker")
+#if __name__ == "__main__":
+#    import os
+#    os.system("gunicorn app.main:app --bind 127.0.0.1:8000 --reload --worker-class uvicorn.workers.UvicornWorker")
 
 
 

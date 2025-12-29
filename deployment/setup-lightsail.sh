@@ -1,10 +1,9 @@
 #!/bin/bash
-# AWS Lightsail Initial Setup Script
-# This script sets up a fresh Lightsail instance for deployment
+# AWS Lightsail Initial Setup Script (Cloudflare Tunnel version)
 
 set -e
 
-echo "🚀 Setting up AWS Lightsail instance for Timeless Love Backend..."
+echo "🚀 Setting up AWS Lightsail instance for Timeless Love Backend (Cloudflare Tunnel)..."
 echo ""
 
 # Update system packages
@@ -47,16 +46,6 @@ else
 fi
 echo ""
 
-# Install Certbot for SSL certificates
-echo "🔒 Installing Certbot for Let's Encrypt SSL..."
-if ! command -v certbot &> /dev/null; then
-    sudo apt-get install -y certbot
-    echo "✅ Certbot installed"
-else
-    echo "✅ Certbot already installed"
-fi
-echo ""
-
 # Create application directory
 echo "📁 Creating application directory..."
 sudo mkdir -p /opt/timeless-love
@@ -64,11 +53,11 @@ sudo chown $USER:$USER /opt/timeless-love
 echo "✅ Application directory created at /opt/timeless-love"
 echo ""
 
-# Set up firewall rules
+# Set up firewall (SSH only - Cloudflare Tunnel handles the rest)
 echo "🔥 Configuring firewall..."
 sudo ufw allow 22/tcp    # SSH
-sudo ufw allow 80/tcp    # HTTP
-sudo ufw allow 443/tcp   # HTTPS
+sudo ufw deny 80/tcp     # Not needed with Cloudflare Tunnel
+sudo ufw deny 443/tcp    # Not needed with Cloudflare Tunnel
 sudo ufw --force enable
 echo "✅ Firewall configured"
 echo ""
@@ -85,6 +74,5 @@ echo "Next steps:"
 echo "1. Log out and log back in for Docker group changes to take effect"
 echo "2. Clone your repository to /opt/timeless-love"
 echo "3. Create .env.production file with your configuration"
-echo "4. Run deploy.sh to deploy the application"
-echo "5. Run setup-ssl.sh to set up SSL certificates"
-echo ""
+echo "4. Set up Cloudflare Tunnel (see deployment guide)"
+echo "5. Run deploy.sh to deploy the application"

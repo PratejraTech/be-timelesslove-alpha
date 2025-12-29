@@ -5,6 +5,27 @@ Application configuration from environment variables.
 import os
 from typing import Optional
 from pydantic_settings import BaseSettings
+from dotenv import load_dotenv
+
+# Determine environment and load appropriate .env file
+env = os.getenv("ENVIRONMENT", "development")
+
+# Load environment-specific .env file if it exists
+env_file_map = {
+    "production": ".env.production",
+    "staging": ".env.staging",
+    "test": ".env.test",
+    "development": ".env.local",
+}
+
+env_file = env_file_map.get(env, ".env")
+
+# Try to load environment-specific file, fallback to .env
+if os.path.exists(env_file):
+    load_dotenv(env_file)
+else:
+    # Fallback to .env if specific file doesn't exist
+    load_dotenv(".env", override=False)
 
 
 class Settings(BaseSettings):
@@ -14,10 +35,9 @@ class Settings(BaseSettings):
     supabase_url: str
     supabase_anon_key: str
     supabase_service_role_key: str
-    supabase_jwt_secret: str  # JWT secret for validating Supabase tokens
-    supabase_db_url: Optional[str] = None  # Transaction pooler URL for LangGraph
-    supabase_db_password: Optional[str] = None  # Database password
-    supabase_jwt_secret: Optional[str] = None
+    supabase_jwt_secret: str
+    supabase_db_url: Optional[str] = None
+    supabase_db_password: Optional[str] = None
     supabase_access_token: Optional[str] = None
     
     # JWT Configuration
@@ -31,18 +51,21 @@ class Settings(BaseSettings):
     debug: str = "false"
     api_version: str = "v1"
     
-    # CORS Configuration (comma-separated string)
-    cors_origins: str = "http://localhost:5173,http://localhost:3000"
+    # CORS Configuration
+    cors_origins: str = os.getenv("CORS_ORIGINS", ["http://localhost:5173, http://localhost:3000", "timelesslove.ai"])
     
     # Media Processing Configuration
     media_max_file_size_mb: int = 50
     media_max_memory_size_mb: int = 200
     media_thumbnail_size: int = 400
-    media_upload_url_expires_seconds: int = 300  # 5 minutes
-    media_access_url_expires_seconds: int = 3600  # 1 hour
+    media_upload_url_expires_seconds: int = 300
+    media_access_url_expires_seconds: int = 3600
     
     # Storage Configuration
     storage_bucket_name: str = "memories"
+    
+    # Cloudflare Tunnel
+    cloudflare_tunnel_token: Optional[str] = None
     
     @property
     def is_debug(self) -> bool:
@@ -55,9 +78,9 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.cors_origins.split(",")]
     
     model_config = {
-        "env_file": ".env",
+        "env_file": ".env",  # Pydantic will also check this
         "case_sensitive": False,
-        "extra": "ignore",  # Ignore extra environment variables not defined in the model
+        "extra": "ignore",
     }
 
 
@@ -71,4 +94,3 @@ def get_settings() -> Settings:
     if _settings is None:
         _settings = Settings()
     return _settings
-
